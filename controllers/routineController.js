@@ -1,8 +1,10 @@
+//Importação File System
 const fs = require('fs');
 
+//Leitura JSON de rotinas
 const routines = JSON.parse(fs.readFileSync('data/routines.json'));
 
-//GET
+// --GET
 exports.getAllRoutines = (request,response) => {
     response.status(200).json({
         status: 'Success',
@@ -12,7 +14,6 @@ exports.getAllRoutines = (request,response) => {
         }
     });
 }
-
 exports.getRoutine = (request,response) => {
     const id = request.params.id * 1;
     const routine = routines.find( element => {
@@ -31,12 +32,10 @@ exports.getRoutine = (request,response) => {
         }
     });
 }
-
 //In progress
-/*  exports.getRoutinesDay = (request,response) => {
+exports.getRoutinesDay = (request,response) => {
     const day = request.params.dayOfTheWeek;
-
-    const results = routines.filter(routine => routine.createdAt.includes()); 
+    const results = routines.filter(routine => routine.dateTime == day); 
     if(!results){
         return response.status(404).json({
             status: 'Fail',
@@ -49,9 +48,9 @@ exports.getRoutine = (request,response) => {
             routines: results
         }
     });
- } */
+ } 
 
-//POST
+// --POST
 exports.sendRoutine = (request,response) =>{
 
     const newId = routines[routines.length-1].id + 1;
@@ -69,7 +68,7 @@ exports.sendRoutine = (request,response) =>{
     })
 }
 
-//DELET
+// --DELETE
 exports.deletRoutine = (request,response) =>{
     /* if(request.params.id * 1 > routines.length){
         return response.status(404).json({

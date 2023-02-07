@@ -1,8 +1,10 @@
+//Importação File System
 const fs = require('fs');
 
+//Leitura JSON de usuários
 const users = JSON.parse(fs.readFileSync('data/users.json'));
 
-//POST
+// --POST
 //Voltar depois, tem um BUG na criação de um primeiro ID.
 exports.sendSignUp = (request,response) =>{
 
