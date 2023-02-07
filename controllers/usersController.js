@@ -3,7 +3,7 @@ const fs = require('fs');
 const users = JSON.parse(fs.readFileSync('data/users.json'));
 
 //POST
-//Voltar depois, tem um BUG na criaçaõ de um primeiro ID.
+//Voltar depois, tem um BUG na criação de um primeiro ID.
 exports.sendSignUp = (request,response) =>{
 
     const newId = users[users.length-1].id + 1;
@@ -19,20 +19,23 @@ exports.sendSignUp = (request,response) =>{
         });
     })
 }
-//TODO
-/* exports.sendSignIn = (request,response) =>{
+//Voltar depois, otimizar
+exports.sendSignIn = (request,response) =>{
 
-    const newId = routines[routines.length-1].id + 1;
-    const newRoutine = Object.assign({id: newId},request.body);
-    newRoutine.createdAt = Date();
+    const {email, password} = request.body;
+/*     console.log(password);
+    console.log(email); */
 
-    routines.push(newRoutine);
-    fs.writeFile('data/routines.json', JSON.stringify(routines), err => {
-        response.status(201).json({
-            status: 'Success',
-            data: {
-                routine: newRoutine
-            }
+    const validationKey = users.find(element => (element.email === email && element.password == password) ? true : false);
+
+    if(!validationKey){
+        return response.status(404).json({
+            status: 'Fail',
+            message: 'Credenciais inválidas'
         });
-    })
-} */
+    }
+    response.status(200).json({
+        status: 'Success',
+        message: 'Credenciais válidas'
+    });
+} 
