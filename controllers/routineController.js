@@ -5,7 +5,7 @@ const fs = require('fs');
 const routines = JSON.parse(fs.readFileSync('data/routines.json'));
 
 // --GET
-exports.getAllRoutines = (request,response) => {
+exports.getAllRoutines = (_,response) => {
     response.status(200).json({
         status: 'Success',
         results: routines.length,
@@ -14,7 +14,7 @@ exports.getAllRoutines = (request,response) => {
         }
     });
 }
-exports.getRoutine = (request,response) => {
+exports.getRoutine = (request, response) => {
     const id = request.params.id * 1;
     const routine = routines.find( element => {
         return element.id === id
@@ -32,10 +32,9 @@ exports.getRoutine = (request,response) => {
         }
     });
 }
-//In progress
-exports.getRoutinesDay = (request,response) => {
+exports.getRoutinesDay = (request, response) => {
     const day = request.params.dayOfTheWeek;
-    const results = routines.filter(routine => routine.dateTime == day); 
+    const results = routines.filter(routine => routine.dateTime.includes(day) === true); 
     if(!results){
         return response.status(404).json({
             status: 'Fail',
@@ -49,9 +48,10 @@ exports.getRoutinesDay = (request,response) => {
         }
     });
  } 
+ //Melhorar
 
 // --POST
-exports.sendRoutine = (request,response) =>{
+exports.sendRoutine = (request, response) =>{
 
     const newId = routines[routines.length-1].id + 1;
     const newRoutine = Object.assign({id: newId},request.body);
@@ -69,20 +69,14 @@ exports.sendRoutine = (request,response) =>{
 }
 
 // --DELETE
-exports.deletRoutine = (request,response) =>{
-    /* if(request.params.id * 1 > routines.length){
-        return response.status(404).json({
-            status: 'Fail',
-            message: 'Nenhuma rotina com esse ID'
-        });
-    } */
+exports.deletRoutine = (request, response) =>{
 
     const id = request.params.id * 1;
     const routine = routines.find(element => {
         return element.id === id
     });
 
-    routines.splice(routines.indexOf(id),1);
+    routines.splice(routines.indexOf(routine),1);
 
     fs.writeFile('data/routines.json', JSON.stringify(routines), err => {
         response.status(201).json({
@@ -91,6 +85,26 @@ exports.deletRoutine = (request,response) =>{
                 routine: `A rotina de ID: ${id} foi excluída`
             }
         });
+    });
+}
+exports.deletRoutineDay = (request, response) => {
+    const day = request.params.dayOfTheWeek;
+
+    const results = routines.filter(routine => routine.dateTime !== day); 
+
+    if(!results){
+        return response.status(404).json({
+            status: 'Fail',
+            message: 'Nenhuma rotina para esse dia'
+        });
+    }
+    
+    fs.writeFile('data/routines.json', JSON.stringify(results), err => {
+        response.status(201).json({
+            status: 'Success',
+            data: {
+                routine: `As rotina do dia: ${day} foram excluídas`
+            }
+        });
     })
 }
-/* exports.deletRoutineDay = () => {} */ //TODO

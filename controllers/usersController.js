@@ -5,7 +5,6 @@ const fs = require('fs');
 const users = JSON.parse(fs.readFileSync('data/users.json'));
 
 // --POST
-//Voltar depois, tem um BUG na criação de um primeiro ID.
 exports.sendSignUp = (request,response) =>{
 
     const newId = users[users.length-1].id + 1;
@@ -21,7 +20,7 @@ exports.sendSignUp = (request,response) =>{
         });
     })
 }
-//Voltar depois, otimizar
+//Voltar depois, tem um BUG na criação de um primeiro ID.
 exports.sendSignIn = (request,response) =>{
 
     const {email, password} = request.body;
@@ -41,3 +40,4 @@ exports.sendSignIn = (request,response) =>{
         message: 'Credenciais válidas'
     });
 } 
+//Voltar depois, otimizar

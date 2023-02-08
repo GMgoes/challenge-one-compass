@@ -6,7 +6,7 @@ const routeUsers = express.Router();
 const controller = require('./../controllers/usersController');
 
 // --- POST
-routeUsers.route('/users/signUp').post(controller.sendSignUp) //OK - Need review
-routeUsers.route('/users/singIn').post(controller.sendSignIn) //OK - Need review
+routeUsers.route('/users/signUp').post(controller.sendSignUp) //OK
+routeUsers.route('/users/signIn').post(controller.sendSignIn) //OK
 
 module.exports = routeUsers;
