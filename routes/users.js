@@ -1,12 +1,17 @@
-//Importação Express
-const express = require('express');
-const routeUsers = express.Router();
+/* eslint-disable linebreak-style */
 
-//Importação Controlador
-const controller = require('./../controllers/usersController');
+// Importação Express
+import { Router } from 'express';
+
+// Importação Controlador
+import {
+  sendSignUp, sendSignIn,
+} from '../controllers/usersController';
+
+const routeUsers = Router();
 
 // --- POST
-routeUsers.route('/users/signUp').post(controller.sendSignUp) //OK
-routeUsers.route('/users/signIn').post(controller.sendSignIn) //OK
+routeUsers.route('/users/signUp').post(sendSignUp); // OK
+routeUsers.route('/users/signIn').post(sendSignIn); // OK
 
-module.exports = routeUsers;
+export default routeUsers;
