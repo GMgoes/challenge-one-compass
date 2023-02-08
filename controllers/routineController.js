@@ -8,14 +8,31 @@ const fs = require('fs');
 const routines = JSON.parse(fs.readFileSync('data/routines.json'));
 
 // --GET
-exports.getAllRoutines = (_, response) => {
-  response.status(200).json({
-    status: 'Success',
-    results: routines.length,
-    data: {
-      routines,
-    },
-  });
+exports.getRoutines = (request, response) => {
+  if (Object.keys(request.query).length !== 0) {
+    const { dayOfTheWeek } = request.query;
+    const results = routines.filter((routine) => routine.dateTime.includes(dayOfTheWeek) === true);
+    if (results.length === 0) {
+      return response.status(404).json({
+        status: 'Fail',
+        message: 'Nenhuma rotina nesse dia',
+      });
+    }
+    response.status(200).json({
+      status: 'Success',
+      data: {
+        routines: results,
+      },
+    });
+  } else {
+    response.status(200).json({
+      status: 'Success',
+      results: routines.length,
+      data: {
+        routines,
+      },
+    });
+  }
 };
 exports.getRoutine = (request, response) => {
   const id = request.params.id * 1;
@@ -30,22 +47,6 @@ exports.getRoutine = (request, response) => {
     status: 'Success',
     data: {
       routine,
-    },
-  });
-};
-exports.getRoutinesDay = (request, response) => {
-  const day = request.params.dayOfTheWeek;
-  const results = routines.filter((routine) => routine.dateTime.includes(day) === true);
-  if (results.length === 0) {
-    return response.status(404).json({
-      status: 'Fail',
-      message: 'Nenhuma rotina nesse dia',
-    });
-  }
-  response.status(200).json({
-    status: 'Success',
-    data: {
-      routines: results,
     },
   });
 };
@@ -91,13 +92,12 @@ exports.deletRoutine = (request, response) => {
   });
 };
 exports.deletRoutineDay = (request, response) => {
-  const day = request.params.dayOfTheWeek;
+  const { dayOfTheWeek } = request.query;
 
-  const results = routines.filter((routine) => routine.dateTime !== day);
-
+  const results = routines.filter((routine) => routine.dateTime !== dayOfTheWeek);
   const excludes = routines.length - results.length;
 
-  if (!results) {
+  if (excludes === 0) {
     return response.status(404).json({
       status: 'Fail',
       message: 'Nenhuma rotina para esse dia',
@@ -108,7 +108,7 @@ exports.deletRoutineDay = (request, response) => {
     response.status(201).json({
       status: 'Success',
       data: {
-        routine: `As rotinas do dia: ${day} foram excluídas, no total: ${excludes} rotinas foram excluídas`,
+        routine: `As rotinas do dia: ${dayOfTheWeek} foram excluídas, no total: ${excludes} rotinas foram excluídas`,
       },
     });
   });
