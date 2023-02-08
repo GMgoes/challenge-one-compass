@@ -2,25 +2,23 @@
 /* eslint-disable consistent-return */
 
 // Importação Express
-import { Router } from 'express';
+const express = require('express');
+
+const routeEvents = express.Router();
 
 // Importação Controlador
-import {
-  getAllRoutines, getRoutinesDay, getRoutine, sendRoutine, deletRoutine, deletRoutineDay,
-} from '../controllers/routineController';
-
-const routeEvents = Router();
+const controller = require('../controllers/routineController');
 
 // --- GET
-routeEvents.route('/events').get(getAllRoutines); // OK
-routeEvents.route('/eventss/:dayOfTheWeek').get(getRoutinesDay); // OK
-routeEvents.route('/events/:id').get(getRoutine); // OK
+routeEvents.route('/events').get(controller.getAllRoutines); // OK
+routeEvents.route('/eventss/:dayOfTheWeek').get(controller.getRoutinesDay); // OK
+routeEvents.route('/events/:id').get(controller.getRoutine); // OK
 
 // --- POST
-routeEvents.route('/events').post(sendRoutine); // OK
+routeEvents.route('/events').post(controller.sendRoutine); // OK
 
 // --- DELETE
-routeEvents.route('/events/:id').delete(deletRoutine); // OK
-routeEvents.route('/eventss/:dayOfTheWeek').delete(deletRoutineDay); // OK
+routeEvents.route('/events/:id').delete(controller.deletRoutine); // OK
+routeEvents.route('/eventss/:dayOfTheWeek').delete(controller.deletRoutineDay); // OK
 
-export default routeEvents;
+module.exports = routeEvents;

@@ -1,12 +1,12 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable no-console */
 
-import { listen } from './app';
+const app = require('./app');
 
 // Porta utilizada
 const port = 3000;
 
 // Server
-listen(port, () => {
+app.listen(port, () => {
   console.log(`Running in port:${port}`);
 });
