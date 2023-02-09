@@ -12,12 +12,10 @@ app.use(morgan('dev'));
 // Utilizaremos formato JSON para o nosso express trabalhar
 app.use(express.json());
 
-// Rota rotinas
 const routeEvents = require('./routes/routineEvents');
+// Rota rotinas
+const routeUsers = require('./routes/users');
 // Rota usuário
-
-// eslint-disable-next-line import/extensions
-const routeUsers = require('./routes/users.js');
 
 app.use('/api/v1', routeEvents);
 app.use('/api/v1', routeUsers);

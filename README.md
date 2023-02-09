@@ -30,22 +30,24 @@ Porta: 3000 <br>
 Persistência de dados: Arquivos locais em formato .json
 
 ## Routes
-- **GET** /events (Captura todas as rotinas, se passar uma query dayOfTheWeek, traz todas as rotinas somente do dia informado)
+- **GET** /events (Captura todas as rotinas, se passar uma query dayOfTheWeek, traz todas as rotinas que tem como o dia da semana, o dia informado na query).
 
-- **GET** /events/:id (Captura a rotina com o id informado por parâmetro)
+- **GET** /events/:id (Captura a rotina com o id informado por parâmetro).
 
-- **POST** /events (Submete uma nova rotina com dados através do corpo da requisição, salva num arquivo local)
+- **POST** /events (Submete uma nova rotina com dados através do corpo da requisição, salva num arquivo local).
 
-- **POST** /users/signUp (Submete um novo usuário com dados através do corpo da requisição, salva num arquivo local)
+- **POST** /users/signUp (Submete um novo usuário com dados através do corpo da requisição, salva num arquivo local).
 
-- **POST** /users/signIn (Faz uma validação dos dados para login através das informações no corpo da requisição, checa com os dados salvos no nosso arquivo local)
+- **POST** /users/signIn (Faz uma validação dos dados para login através das informações no corpo da requisição, checa com os dados salvos no nosso arquivo local).
 
-- **DELETE** /events/:id (Deleta uma rotina através do id informado por parâmetro)
+- **DELETE** /events/:id (Deleta uma rotina através do id informado por parâmetro).
 
-- **DELETE** /events (Deleta uma ou mais rotinas através da query dayOfTheWeek informado)
+- **DELETE** /events (Deleta uma ou mais rotinas através da query dayOfTheWeek informado, removendo todas as rotinas que tem como o dia da semana, o dia informado na query).
 
+## Testes
+
+- No diretório test, há um arquivo de teste para que possamos fazer as validações em cada rota, por enquanto está realizando somente o teste da rota em si (se estamos obtendo um status 200 ou 400, isso é, se está sendo um sucesso ou se deu ero na hora da requisição).
 <br><br>
 
 ![JIGSAW](https://cdn.ome.lt/NoSLprJ-3LRv2SnPolbI9sldv1s=/987x0/smart/uploads/conteudo/fotos/jogos-mortais-10-confirmado-capa.jpg)
 
-<!-- (TALVEZ ACRESCENTAR PARTE DO CHAI/MOCHA, REQUEST E SHOULD) -->
