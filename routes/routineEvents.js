@@ -10,14 +10,14 @@ const routeEvents = express.Router();
 const controller = require('../controllers/routineController');
 
 // --- GET
-routeEvents.route('/events').get(controller.getRoutines); // OK - Sem Query ou com Query (?dayOfTheWeek)
-routeEvents.route('/events/:id').get(controller.getRoutine); // OK - Params
+routeEvents.route('/events').get(controller.getRoutines); // OK - Validado
+routeEvents.route('/events/:id').get(controller.getRoutine); // OK - Validado
 
 // --- POST
-routeEvents.route('/events').post(controller.sendRoutine); // OK - Params - Need review(Validar campos)
+routeEvents.route('/events').post(controller.sendRoutine); // OK - Validado
 
 // --- DELETE
-routeEvents.route('/event/:id').delete(controller.deletRoutine); // OK - Params - Need review(Validar campos)
-routeEvents.route('/events').delete(controller.deletRoutineDay); // OK - Query - Need review(Validar campos)
+routeEvents.route('/events/:id').delete(controller.deletRoutine); // OK - Validado
+routeEvents.route('/events').delete(controller.deletRoutineDay); // OK - Validado
 
 module.exports = routeEvents;

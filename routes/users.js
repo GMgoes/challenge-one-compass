@@ -10,7 +10,7 @@ const routeUsers = express.Router();
 const controller = require('../controllers/usersController');
 
 // --- POST
-routeUsers.route('/users/signUp').post(controller.sendSignUp); // OK
-routeUsers.route('/users/signIn').post(controller.sendSignIn); // OK
+routeUsers.route('/users/signUp').post(controller.sendSignUp); // OK - Validado
+routeUsers.route('/users/signIn').post(controller.sendSignIn); // OK - Validado
 
 module.exports = routeUsers;

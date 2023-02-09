@@ -4,21 +4,21 @@
 /* eslint-disable no-undef */
 
 /* const chai = require('chai');
-
-const { expect } = chai.expect;
-const should = chai.should();
+const assert = require('assert');
 const chaiHttp = require('chai-http');
 const rotas = require('../routes/routineEvents');
 
 chai.use(chaiHttp);
 
 describe('Testes', () => {
-  it('Teste de GET(TODOS) rotinas', async (done) => {
-    await chai.request(rotas)
-      .get('/events')
-      .end((err, response) => {
-        response.should.have.status(200);
-        done();
-      });
+  describe('Requisição GET', () => {
+    it('/events deve retornar 200 para funcional', () => {
+      chai.request(rotas)
+        .get('/events')
+        .end((_, response) => {
+          assert.equal(request.status, 200);
+        });
+    });
   });
-}); */
+});
+ */
