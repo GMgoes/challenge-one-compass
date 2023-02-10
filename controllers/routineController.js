@@ -36,33 +36,45 @@ exports.getRoutines = (request, response) => {
 };
 // OK - Validado
 exports.getRoutine = (request, response) => {
-  const id = parseInt(request.params.id, 10);
-  const routine = routines.find((element) => element.id === id);
-  if (!routine) {
-    return response.status(400).json({
+  if (Number.isNaN(request.params.id)) {
+    const { id } = request.params;
+    const routine = routines.find((element) => element.id === id);
+    if (!routine) {
+      return response.status(404).json({
+        status: 'Fail',
+        message: 'Nenhuma rotina com esse ID',
+      });
+    }
+    response.status(200).json({
+      status: 'Success',
+      data: {
+        routine,
+      },
+    });
+  } else {
+    return response.status(404).json({
       status: 'Fail',
-      message: 'Nenhuma rotina com esse ID',
+      message: 'O ID deve ser um número ',
     });
   }
-  response.status(200).json({
-    status: 'Success',
-    data: {
-      routine,
-    },
-  });
 };
 // OK - Validado
 
 // --POST
 exports.sendRoutine = (request, response) => {
-  if (Object.keys(request.body).length === 3) {
+  // Object.keys(request.body).length === 3
+  if (
+    typeof request.body.description === 'string'
+    && typeof request.body.dateTime === 'string'
+    && typeof request.body.createdAt === 'string'
+  ) {
     const newId = (routines.length === 0) ? 1 : routines[routines.length - 1].id + 1;
     const newRoutine = { id: newId, ...request.body };
     /* newRoutine.createdAt = Date(); */
     // Caso quisessemos obter a data de criação no momento da requisição
     routines.push(newRoutine);
     fs.writeFile('data/routines.json', JSON.stringify(routines), () => {
-      response.status(200).json({
+      response.status(201).json({
         status: 'Success',
         data: {
           routine: newRoutine,
@@ -72,7 +84,7 @@ exports.sendRoutine = (request, response) => {
   } else {
     return response.status(400).json({
       status: 'Fail',
-      message: 'Campos necessários: description, dateTime, createdAt',
+      message: 'Campos necessários: description, dateTime, createdAt, em formato de texto',
     });
   }
 };
@@ -80,48 +92,60 @@ exports.sendRoutine = (request, response) => {
 
 // --DELETE
 exports.deletRoutine = (request, response) => {
-  const id = parseInt(request.params.id, 10);
-  const routine = routines.find((element) => element.id === id);
+  if (Number.isNaN(request.params.id)) {
+    const { id } = request.params;
+    const routine = routines.find((element) => element.id === id);
 
-  if (!routine) {
-    return response.status(400).json({
+    if (!routine) {
+      return response.status(404).json({
+        status: 'Fail',
+        message: `Nenhuma rotina com o ID: ${id} foi encontrada`,
+      });
+    }
+
+    routines.splice(routines.indexOf(routine), 1);
+    fs.writeFile('data/routines.json', JSON.stringify(routines), () => {
+      response.status(200).json({
+        status: 'Success',
+        data: {
+          routine: `A rotina de ID: ${id} foi excluída`,
+        },
+      });
+    });
+  } else {
+    return response.status(404).json({
       status: 'Fail',
-      message: `Nenhuma rotina com o ID: ${id} foi encontrada`,
+      message: 'O ID deve ser um número ',
     });
   }
-
-  routines.splice(routines.indexOf(routine), 1);
-
-  fs.writeFile('data/routines.json', JSON.stringify(routines), () => {
-    response.status(200).json({
-      status: 'Success',
-      data: {
-        routine: `A rotina de ID: ${id} foi excluída`,
-      },
-    });
-  });
 };
 // OK - Validado
 exports.deletRoutineDay = (request, response) => {
-  const { dayOfTheWeek } = request.query;
+  if (typeof request.query.dayOfTheWeek === 'string') {
+    const { dayOfTheWeek } = request.query;
+    const results = routines.filter((routine) => routine.dateTime !== dayOfTheWeek);
+    const excludes = routines.length - results.length;
 
-  const results = routines.filter((routine) => routine.dateTime !== dayOfTheWeek);
-  const excludes = routines.length - results.length;
+    if (excludes === 0) {
+      return response.status(404).json({
+        status: 'Fail',
+        message: 'Nenhuma rotina nesse dia foi encontrada',
+      });
+    }
 
-  if (excludes === 0) {
-    return response.status(400).json({
+    fs.writeFile('data/routines.json', JSON.stringify(results), () => {
+      response.status(200).json({
+        status: 'Success',
+        data: {
+          routine: `As rotinas do dia: ${dayOfTheWeek} foram excluídas, no total: ${excludes} rotinas foram excluídas`,
+        },
+      });
+    });
+  } else {
+    return response.status(404).json({
       status: 'Fail',
-      message: 'Nenhuma rotina nesse dia foi encontrada',
+      message: 'O dia da semana deve ser em formato de texto',
     });
   }
-
-  fs.writeFile('data/routines.json', JSON.stringify(results), () => {
-    response.status(200).json({
-      status: 'Success',
-      data: {
-        routine: `As rotinas do dia: ${dayOfTheWeek} foram excluídas, no total: ${excludes} rotinas foram excluídas`,
-      },
-    });
-  });
 };
 // OK - Validado

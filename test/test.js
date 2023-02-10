@@ -48,7 +48,7 @@ describe('Testes de Rotas POST', () => {
       .post('/events')
       .send(rotina)
       .end((_, res) => {
-        res.should.have.status(200);
+        res.should.have.status(201);
         done();
       });
   });
@@ -67,7 +67,7 @@ describe('Testes de Rotas POST', () => {
       .post('/users/signUp')
       .send(person)
       .end((_, res) => {
-        res.should.have.status(200);
+        res.should.have.status(201);
         done();
       });
   });
