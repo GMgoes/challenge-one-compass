@@ -15,9 +15,21 @@ _Então você tem essa nova missão, construir um novo planner para alguns clien
 
 ## Como rodar o projeto
 
-- Precisaremos das dependencias: **Express** e **Nodemon**, além do ambiente **Node.js** configurado na máquina (node_modules não foi commitada no GitHub)
+- Primeiramente clonamos o repositório desse github para o nosso repositório local através do comando **git clone**
 
-- Foi criado um script **_start_** para que seja startado o projeto de forma simples, então basta ir no terminal da pasta challenge-one-compass e rodar o comando: **_npm run start_** e ele subirá o nosso servidor com o **nodemon** em status _watch_, para que qualquer mudança que queiram realizar já reinicie o servidor com as novas alterações.
+- Acessamos o diretório _challenge-one-compass_ e dentro do terminal executamos esses nove comandos para instalar as dependencias utilizadas:
+- npm init (Configurar ambiente Node, pressione _enter_ até pular todas as informações que ele pede)
+- npm install express
+- npm install nodemon
+- npm install morgan
+- npm install mocha
+- npm install chai
+- npm install chai-http
+- npm install request
+- npm install should
+- npm install eslint-config-airbnb (Utilizei também o eslint, creio que seja necessário também a instalação de suas dependencias)
+
+- Após instalado essas dependências no nosso ambiente Node podemos começar a rodar o projeto. entrando no terminal dentro do diretório _challenge-one-compass_ rodamos o comando: **_nodemon server.js -watch_** e ele subirá o nosso servidor com o **nodemon** em status _watch_, para que qualquer mudança que queiram realizar já reinicie o servidor com as novas alterações, e com isso nosso servidor estará rodando na porta 3000, sendo acessível através da url base: _localhost:3000/api/v1/_
 
 ## Versionamento
 - _Express: v4.18.2_ <br>
@@ -46,7 +58,9 @@ Persistência de dados: Arquivos locais em formato .json
 
 ## Testes
 
-- No diretório test, há um arquivo de teste para que possamos fazer as validações em cada rota, por enquanto está realizando somente o teste da rota em si (se estamos obtendo um status 200 ou 400, isso é, se está sendo um sucesso ou se deu ero na hora da requisição).
+- No diretório _test_, há um arquivo de teste para que possamos fazer as validações em cada rota através do chai/mocha, por enquanto está realizando somente o teste da rota em si (se estamos obtendo um status 200 ou 400, isso é, se está sendo um sucesso ou se deu ero na hora da requisição).
+
+- Para execução do arquivo de teste com Mocha, basta ir no terminal do diretório _challenge-one-compass_ e executar o comando **_mocha 'test/test.js'_** e com isso ele fará os testes para todas as rotas que construimos até o momento
 <br><br>
 
 ![JIGSAW](https://cdn.ome.lt/NoSLprJ-3LRv2SnPolbI9sldv1s=/987x0/smart/uploads/conteudo/fotos/jogos-mortais-10-confirmado-capa.jpg)
